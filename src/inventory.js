@@ -98,8 +98,8 @@ export const updateProductInfo = (id, key, value, method) => {
   return total;
 };
 
-export const removeProductInfo = (id) = >{
-  
+export const removeProductInfo = (id) =>{
+
 }
 
 export const updateProductRow = (id, key, value) => {
