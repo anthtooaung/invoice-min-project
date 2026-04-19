@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Sans+Myanmar:wght@100..900&display=swap");
+
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import "../node_modules/flowbite/src/themes/default.css";
+@import "../node_modules/flowbite/dist/flowbite.css";
+@import "../node_modules/sweetalert2/dist/sweetalert2.min.css";
+
+@theme {
+  --font-monsterrat: "Montserrat";
+  --font-myanmar: "Noto Sans Myanmar";
+}

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>invoice-app-project</title>
+</head>
+
+<body>
+  <main class="flex flex-col h-screen bg-stone-100">
+
+    <!-- title section -->
+    <header>
+      <div class="container mx-auto p-5">
+        <div class="mx-10">
+          <h1 class="text-3xl font-serif text-green-600">Invoice Management System</h1>
+          <p class="font-monsterrat text-lg text-green-800">Sale Support Project Creation</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- record table section -->
+    <section class="container mx-auto p-5">
+      <div class="mx-10 flex flex-col gap-5">
+        <!-- record sell products form -->
+        <form id="recordProductForm" class="grid grid-cols-4 items-end gap-5 p-5 shadow-2xl rounded-2xl">
+          <!-- select box -->
+          <div class="col-span-2">
+            <div class="w-full mx-auto">
+              <label for="productSelect" class="block mb-2.5 text-sm font-medium text-heading">Select an option</label>
+              <select id="productSelect" name="product_select"
+                class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-success focus:border-success shadow-xs placeholder:text-body">
+                <option value="0" selected>Choose an products</option>
+              </select>
+            </div>
+          </div>
+          <!-- number input box -->
+          <div class="col-span-1">
+            <div class=" mx-auto w-full">
+              <label for="recordQty" class="block mb-2.5 text-sm font-medium text-heading">Select an
+                quantity:</label>
+              <input type="number" min="1" id="recordQty" name="record_qty" aria-describedby="helper-text-explanation"
+                class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-success focus:border-success shadow-xs placeholder:text-body"
+                placeholder="90210" required />
+            </div>
+          </div>
+
+          <!-- add btn box -->
+          <div class="col-span-1 ">
+            <button type="submit" id="newRecordBtn"
+              class="w-full active:scale-90 duration-200 cursor-pointer text-white bg-success hover:bg-success-strong box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-base text-base px-6 py-3.5 focus:outline-none">Add
+              List</button>
+          </div>
+        </form>
+
+        <!-- record sell  products' table  -->
+        <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-2xl rounded-2xl ">
+          <table class="w-full text-sm text-left rtl:text-right text-body">
+            <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
+              <tr>
+                <th scope="col" class="px-6 py-3 font-medium">
+                  Product name
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                  Price
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                  Quantity
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                  Total Cost
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody id="recordTable">
+                <tr class="bg-neutral-primary border-b border-default text-center px-20 h-20 not-last:hidden">
+                  <th scope="row" colspan="5">No Data Found!</th>
+                </tr> 
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="col" colspan="3" class="px-6 py-3 font-medium text-right">
+                  Total Price
+                </th>
+                <th scope="col" colspan="2" class="text-left px-6 py-3 font-medium">
+                 <span id="recordProductTotalPrice">0</span> mmk
+                </th>
+              </tr>
+              <tr>
+                <th scope="col" colspan="3" class="px-6 py-3 font-medium text-right">
+                  Tax
+                </th>
+                <th scope="col" colspan="2" class="text-left px-6 py-3 font-medium">
+                  <span id="recordProductTax">0</span> mmk
+                </th>
+              </tr>
+              <tr>
+                <th scope="col" colspan="3" class="px-6 py-3 font-medium text-right">
+                  Net Total
+                </th>
+                <th scope="col" colspan="2" class="text-left px-6 py-3 font-medium">
+                  <span id="recordProductNetTotalPrice">0</span> mmk
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- main inventory section -->
+    <section id="inventorySection"
+      class="bg-stone-100 border-l-2 border-l-stone-200/70 fixed right-0 h-screen w-lg translate-x-full duration-300 z-30">
+      <!-- container box -->
+      <div class="container mx-auto p-5">
+        <!-- title -->
+        <div class="mx-5 mb-5 flex justify-between items-center">
+          <div>
+            <h1 class="text-3xl font-serif text-green-600">Inventory Management </h1>
+            <p class="font-monsterrat text-lg text-green-800">Add New Product</p>
+          </div>
+          <button class="cursor-pointer group" id="inventoryHideBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5 text-green-600 duration-200 pointer-events-none group-hover:text-green-800 group-active:size-4">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+            </svg>
+          </button class="cursor-pointer">
+        </div>
+
+        <!-- new product add form -->
+        <form id="newProductForm" class="mx-5 grid grid-cols-4 gap-5 items-end mb-5">
+          <!-- new product name -->
+          <div class="col-span-2">
+            <label for="newProductName" class="block mb-2.5 text-sm font-medium text-heading">Product name</label>
+            <input type="text" id="newProductName" name="new_product_name"
+              class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-success focus:border-suring-success  block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+              placeholder="Apple" required />
+          </div>
+          <!-- product Price/amount -->
+          <div class=" mx-auto w-full col-span-2">
+            <label for="newProductPrice" class="block mb-2.5 text-sm font-medium text-heading">Price - mmk</label>
+            <input type="number" min="500" id="newProductPrice" name="new_product_price"
+              aria-describedby="helper-text-explanation"
+              class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-success focus:border-success shadow-xs placeholder:text-body"
+              placeholder="90210" required />
+          </div>
+          <!-- product qty -->
+          <div class=" mx-auto w-full col-span-2">
+            <label for="newProductQty" class="block mb-2.5 text-sm font-medium text-heading">Quantity</label>
+            <input type="number" min="1" id="newProductQty" name="new_product_qty" aria-describedby="helper-text-explanation"
+              class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-success focus:border-success shadow-xs placeholder:text-body"
+              placeholder="90210" required />
+          </div>
+
+          <!-- add new product btn -->
+          <div class="col-span-2">
+            <button id="addNewProductBtn" type="submit"
+              class="w-full cursor-pointer active:scale-90 duration-200 text-white bg-success hover:bg-success-strong box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-base text-base px-6 py-3.5 focus:outline-none">Add
+              List</button>
+          </div>
+
+        </form>
+
+        <!-- obtained products show table -->
+        <div class="mx-5">
+          <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-2xl rounded-2xl ">
+            <table class="w-full text-sm text-left rtl:text-right text-body">
+              <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
+                <tr>
+                  <th scope="col" class=" px-3 py-3 font-medium">
+                    Product name
+                  </th>
+
+                  <th scope="col" class="px-3 py-3 font-medium">
+                    Price-mmk
+                  </th>
+                  <th scope="col" class="px-3 py-3 font-medium">
+                    Quantity
+                  </th>
+                  <th scope="col" class="px-3 py-3 font-medium">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="productTable">
+                  <tr
+                    class="bg-neutral-primary border-b border-default text-center px-20 h-20 not-last:hidden items-center justify-center">
+                    <th scope="row" colspan="5">No Data Found!</th>
+                  
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+
+    </section>
+
+    <!-- show inventory & print section -->
+    <footer class="mt-auto">
+      <div class="container mx-auto p-5">
+        <div class="mx-10 flex items-center justify-end gap-5 ">
+          <!-- show inventory btn -->
+          <div class="col-span-1">
+            <button type="button" id="inventoryShowBtn"
+              class="text-body cursor-pointer active:scale-90 duration-200 bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Manage
+              Inventory</button>
+          </div>
+
+          <!-- print btn -->
+          <div class="col-span-1 ">
+            <button type="button" id="printBtn"
+              class="text-white cursor-pointer active:scale-90 duration-200 bg-success box-border border border-transparent hover:bg-success-strong focus:ring-4 focus:ring-success-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Print</button>
+          </div>
+        </div>
+      </div>
+
+    </footer>
+
+
+    <!-- for the new product table -->
+    <template id="newProductRowTemplate">
+      <tr class="newProductRow bg-neutral-primary border-b border-default group ">
+        <th scope="row" class="name text-center py-4 font-medium  text-heading whitespace-nowrap">
+        </th>
+        <td class="price text-center py-4">
+        </td>
+        <td class="flex items-center justify-center gap-2 text-center py-4">
+          <button class="qtyMinus duration-300 group-hover:block hidden active:scale-75 cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                class="size-5 pointer-events-none">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+          </button>
+          <span class="qty"></span>
+          <button class="qtyPlus duration-300 group-hover:block hidden active:scale-75 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              class="size-5 pointer-events-none">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </button>
+        </td>
+        <td class="text-center py-4">
+          <button type="button"
+            class="removeBtn text-success cursor-pointer hover:underline active:underline leading-5 rounded-base  px-3 py-1.5 focus:outline-none">Remove</button>
+        </td>
+      </tr>
+    </template>
+
+    <!-- for the new record product table -->
+     <template id="newRecordProductRowTemplate">
+        <tr class="newRecordRow bg-neutral-primary border-b border-default group ">
+          <th scope="row" class="name px-6 py-4 font-medium text-heading whitespace-nowrap">
+          </th>
+          <td class="px-6 py-4">
+            <span class="price"></span> mmk
+          </td>
+          <td class="flex items-center justify-start  px-6 py-4">
+              <button class="qtyMinus duration-300 group-hover:block hidden active:scale-75 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                  class="size-5 pointer-events-none">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </button>
+              <span class="qty"></span>
+              <button class="qtyPlus duration-300 group-hover:block hidden active:scale-75 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                  class="size-5 pointer-events-none">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </button>
+          </td>
+          <td class=" px-6 py-4">
+            <span class="totalPrice"></span> mmk
+          </td>
+          <td class="px-6 py-4">
+            <button type="button"
+              class="removeBtn text-success cursor-pointer hover:underline active:underline leading-5 rounded-base  px-3 py-1.5 focus:outline-none">Remove</button>
+          </td>
+        </tr>
+     </template>
+  </main>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
